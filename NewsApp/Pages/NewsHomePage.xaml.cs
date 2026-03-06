@@ -20,18 +20,43 @@ public partial class NewsHomePage : ContentPage
     public NewsHomePage()
 	{
 		InitializeComponent();
-        GetBreakingNews();
         ArticleList = new List<Article>();
         CvCategories.ItemsSource = CategoryList;
+        GetBreakingNews();
 	}
-	private async Task GetBreakingNews()
-	{
-		var apiService = new ApiService();
-		var newsResult = await apiService.GetNews("Sports");
-		foreach (var item in newsResult.Articles)
-		{
-			ArticleList.Add(item);
-		}
-		CvNews.ItemsSource = ArticleList;
-	}
+    private async Task GetBreakingNews()
+    {
+        var apiService = new ApiService();
+        var newsResult = await apiService.GetNews("sports");
+
+        ArticleList.Clear();
+
+        foreach (var item in newsResult.Articles)
+        {
+            ArticleList.Add(item);
+        }
+
+        CvNews.ItemsSource = ArticleList;
+    }
+
+    private async void CvCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var selectedItem = e.CurrentSelection.FirstOrDefault() as Category;
+        if (selectedItem != null)
+        {
+            await Navigation.PushAsync(new NewsListPage(selectedItem.Name));
+            ((CollectionView)sender).SelectedItem = null;
+        }
+    }
+
+    private async void CvNews_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var selectedItem = e.CurrentSelection.FirstOrDefault() as Article;
+
+        if (selectedItem != null)
+        {
+            await Navigation.PushAsync(new NewsDetailPage(selectedItem));
+            ((CollectionView)sender).SelectedItem = null;
+        }
+    }
 }

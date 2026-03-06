@@ -2,11 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.Pages.NewsDetailPage"
-             Title="NewsDetailPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="News Article Details">
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="10">
+            <Image HeightRequest="300" Aspect="Fill" Source="{Binding Image}"/>
+            <Label FontSize="Caption" FontAttributes="Italic" Text="{Binding Description}" LineBreakMode="WordWrap"/>
+            <Label FontSize="Title" FontAttributes="Bold" Text="{Binding Title}"/>
+            <Label FontSize="Medium" Text="{Binding Content}" LineBreakMode="WordWrap"/>
+            <Button Text="Read Full Article" Clicked="OnReadArticleClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
